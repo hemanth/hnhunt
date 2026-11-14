@@ -1,0 +1,41 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+    paths-ignore:
+      - 'public/data/**'
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: 'pip'
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install Python dependencies
+        run: pip install -r requirements.txt
+
+      - name: Check Python pipeline syntax
+        run: python -m py_compile pipeline/*.py
+
+      - name: Check frontend & Worker JS syntax
+        run: |
+          node --check public/app.js
+          node --check src/worker.js
+
+      - name: Validate static Show HN bundles
+        run: python -u pipeline/03_validate.py

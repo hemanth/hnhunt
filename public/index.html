@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>hnhunt — Show HN, hunted daily.</title>
+  <meta name="description" content="Minimal daily product board for Show HN launches from Hacker News. Discover maker-built tools, vote up or down, read verbatim maker notes, and query the daily Hugging Face dataset." />
+  <meta name="color-scheme" content="light dark" />
+  <link rel="canonical" href="https://hnhunt.hemanthhm.workers.dev/" />
+
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23141416'/%3E%3Cpath d='M9 22V10h2.8v4.8h8.4V10H23v12h-2.8v-4.9h-8.4V22H9z' fill='%23F6F5F0'/%3E%3Ccircle cx='24.5' cy='7.5' r='3' fill='%23D94E1F'/%3E%3C/svg%3E" />
+
+  <!-- Agent-Ready Discovery Links (RFC 9727, SEP-1649, A2A, Agent Skills, llms.txt) -->
+  <link rel="api-catalog" href="/.well-known/api-catalog" type="application/linkset+json" />
+  <link rel="service-desc" href="/.well-known/agent-skills/index.json" type="application/json" />
+  <link rel="describedby" href="/.well-known/mcp/server-card.json" type="application/json" />
+  <link rel="describedby" href="/.well-known/agent-card.json" type="application/json" />
+  <link rel="describedby" href="/llms.txt" type="text/plain" />
+  <link rel="ai-catalog" href="/.well-known/ai-catalog.json" type="application/json" />
+
+  <!-- Open Graph & Social Card -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="hnhunt" />
+  <meta property="og:url" content="https://hnhunt.hemanthhm.workers.dev/" />
+  <meta property="og:title" content="hnhunt — Show HN, hunted daily." />
+  <meta property="og:description" content="Every Show HN launch distilled into a calm, minimal daily product board. Vote up or down, inspect maker notes, and query the daily Hugging Face dataset." />
+  <meta property="og:image" content="https://hnhunt.hemanthhm.workers.dev/og.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="hnhunt — Show HN, hunted daily." />
+  <meta name="twitter:description" content="Minimal daily product board for Show HN launches, backed by a daily Hugging Face dataset." />
+  <meta name="twitter:image" content="https://hnhunt.hemanthhm.workers.dev/og.png" />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "hnhunt",
+    "url": "https://hnhunt.hemanthhm.workers.dev/",
+    "description": "Minimalist daily product discovery, voting, and discussion board for Show HN launches from Hacker News, backed by the daily-updated gnumanth/hnhunt dataset on Hugging Face.",
+    "applicationCategory": "DeveloperApplication",
+    "operatingSystem": "Web",
+    "inLanguage": ["en"],
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "author": { "@type": "Person", "name": "Hemanth HM", "url": "https://h3manth.com" },
+    "isBasedOn": "https://huggingface.co/datasets/gnumanth/hnhunt"
+  }
+  </script>
+
+  <script>
+    (function () {
+      try {
+        var saved = localStorage.getItem("hnhunt-theme");
+        if (saved === "dark" || saved === "light") {
+          document.documentElement.setAttribute("data-theme", saved);
+        } else if (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) {
+          document.documentElement.setAttribute("data-theme", "dark");
+        }
+      } catch (_) {}
+    })();
+  </script>
+
+  <!-- Non-blocking Editorial + Precision UI Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+    media="print"
+    onload="this.media='all'"
+  />
+  <noscript>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </noscript>
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="shell">
+    <header class="topbar">
+      <div class="brand-group">
+        <a href="./" class="brand" aria-label="hnhunt home">
+          <svg class="brand-mark" width="24" height="24" viewBox="0 0 32 32" aria-hidden="true">
+            <rect width="32" height="32" rx="7" fill="currentColor" />
+            <path d="M9.5 22V10h2.7v4.7h7.6V10h2.7v12h-2.7v-4.8h-7.6V22H9.5z" fill="var(--bg)" />
+            <circle cx="24.5" cy="7.5" r="2.8" fill="var(--accent)" />
+          </svg>
+          <span class="brand-name">hnhunt</span>
+        </a>
+        <span class="brand-sep" aria-hidden="true">/</span>
+        <a
+          href="https://huggingface.co/datasets/gnumanth/hnhunt"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="dataset-pill"
+          id="dataset-pill"
+          title="Open daily Parquet dataset on Hugging Face"
+        >
+          <span class="pulse-dot" aria-hidden="true"></span>
+          <span id="meta-stat">daily dataset</span>
+        </a>
+      </div>
+
+      <div class="topbar-actions">
+        <label class="search-box" for="search-input">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="11" cy="11" r="8"></circle>
+            <path d="m21 21-4.3-4.3"></path>
+          </svg>
+          <input
+            type="search"
+            id="search-input"
+            placeholder="Search products, makers, domains..."
+            autocomplete="off"
+            spellcheck="false"
+          />
+          <kbd class="search-kbd" aria-hidden="true">/</kbd>
+        </label>
+
+        <button type="button" class="icon-btn" id="theme-toggle" aria-label="Toggle color theme" title="Toggle light/dark theme">
+          <svg class="icon-sun" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="4"></circle>
+            <path d="M12 2v2M12 20v2m-7.07-14.93 1.41 1.41m11.32 11.32 1.41 1.41M2 12h2m16 0h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"></path>
+          </svg>
+          <svg class="icon-moon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path>
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <main id="main-content">
+      <section class="intro" aria-label="Overview">
+        <h1 class="intro-headline">Show HN, <em>hunted daily.</em></h1>
+        <p class="intro-sub">
+          Maker-built tools and experiments from Hacker News, stripped to the essentials. Vote up or down, read maker notes, and talk.
+        </p>
+      </section>
+
+      <nav class="controls-bar" aria-label="Feed filters">
+        <div class="window-tabs" role="tablist" aria-label="Time window">
+          <button type="button" role="tab" aria-selected="true" class="tab active" data-window="today">Today</button>
+          <button type="button" role="tab" aria-selected="false" class="tab" data-window="week">This Week</button>
+          <button type="button" role="tab" aria-selected="false" class="tab" data-window="month">Month</button>
+          <button type="button" role="tab" aria-selected="false" class="tab" data-window="gems">Hidden Gems</button>
+          <button type="button" role="tab" aria-selected="false" class="tab" data-window="all">Hall of Fame</button>
+        </div>
+
+        <div class="sort-group">
+          <label for="sort-select" class="sr-only">Sort launches</label>
+          <select id="sort-select" class="sort-select" aria-label="Sort launches">
+            <option value="featured">Featured</option>
+            <option value="votes">Most Voted</option>
+            <option value="newest">Newest</option>
+            <option value="discussed">Most Discussed</option>
+          </select>
+        </div>
+      </nav>
+
+      <div class="topic-strip" id="topic-strip" role="toolbar" aria-label="Filter by topic">
+        <button type="button" class="topic-chip active" data-topic="all">All</button>
+        <button type="button" class="topic-chip" data-topic="open-source">Open Source</button>
+        <button type="button" class="topic-chip" data-topic="devtools">Devtools</button>
+        <button type="button" class="topic-chip" data-topic="ai">AI</button>
+        <button type="button" class="topic-chip" data-topic="cli">CLI</button>
+        <button type="button" class="topic-chip" data-topic="data">Data</button>
+        <button type="button" class="topic-chip" data-topic="systems">Systems</button>
+        <button type="button" class="topic-chip" data-topic="web">Web</button>
+        <button type="button" class="topic-chip" data-topic="design">Design</button>
+        <button type="button" class="topic-chip" data-topic="security">Security</button>
+        <button type="button" class="topic-chip" data-topic="hardware">Hardware</button>
+        <button type="button" class="topic-chip" data-topic="games">Games</button>
+      </div>
+
+      <div id="feed-container" class="feed-container" aria-live="polite">
+        <div class="loading-state" id="loading-state">Loading daily Show HN feed…</div>
+      </div>
+
+      <div class="load-more-wrap" id="load-more-wrap" hidden>
+        <button type="button" class="secondary-btn" id="load-more-btn">Show more launches</button>
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-left">
+        <span class="kbd-hint"><kbd>j</kbd><kbd>k</kbd> move · <kbd>u</kbd><kbd>d</kbd> vote · <kbd>Enter</kbd> open · <kbd>/</kbd> search</span>
+      </div>
+      <div class="footer-links">
+        <a href="https://huggingface.co/datasets/gnumanth/hnhunt" target="_blank" rel="noopener noreferrer">HF Dataset</a>
+        <a href="/llms.txt">llms.txt</a>
+        <a href="/openapi.json">OpenAPI</a>
+        <a href="/.well-known/agent-card.json">Agent Card</a>
+        <a href="https://github.com/hemanth/hnhunt" target="_blank" rel="noopener noreferrer">GitHub</a>
+        <span class="footer-credit">Made with ♥ <a href="https://h3manth.com" target="_blank" rel="noopener noreferrer">Hemanth HM</a></span>
+      </div>
+    </footer>
+  </div>
+
+  <!-- Minimal Slide-Over Product Sheet -->
+  <div class="sheet-backdrop" id="sheet-backdrop" hidden></div>
+  <aside
+    class="product-sheet"
+    id="product-sheet"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="sheet-title"
+    hidden
+  >
+    <div class="sheet-topbar">
+      <span class="sheet-crumb" id="sheet-crumb">Show HN Launch</span>
+      <button type="button" class="icon-btn" id="sheet-close" aria-label="Close product details">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M18 6 6 18M6 6l12 12"></path>
+        </svg>
+      </button>
+    </div>
+
+    <div class="sheet-body" id="sheet-body"></div>
+  </aside>
+
+  <script src="app.js" defer></script>
+</body>
+</html>

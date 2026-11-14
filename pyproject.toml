@@ -1,0 +1,12 @@
+[project]
+name = "hnhunt"
+version = "0.1.0"
+description = "Minimalist Product Hunt for Show HN — daily dataset pipeline, Hugging Face publisher, and Cloudflare Worker app."
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+  "huggingface-hub>=0.26.0",
+  "pyarrow>=18.0.0",
+  "requests>=2.32.0",
+  "pillow>=11.0.0",
+]

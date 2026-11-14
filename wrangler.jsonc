@@ -1,0 +1,37 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "hnhunt",
+  "main": "src/worker.js",
+  "workers_dev": true,
+  "compatibility_date": "2026-11-01",
+  "assets": {
+    "directory": "./public",
+    "binding": "ASSETS",
+    "run_worker_first": [
+      "/",
+      "/index.html",
+      "/robots.txt",
+      "/sitemap.xml",
+      "/llms.txt",
+      "/auth.md",
+      "/openapi.json",
+      "/mcp",
+      "/api/*",
+      "/.well-known/*"
+    ]
+  },
+  "durable_objects": {
+    "bindings": [
+      {
+        "name": "COMMUNITY",
+        "class_name": "HNHuntStore"
+      }
+    ]
+  },
+  "migrations": [
+    {
+      "tag": "v1",
+      "new_sqlite_classes": ["HNHuntStore"]
+    }
+  ]
+}
