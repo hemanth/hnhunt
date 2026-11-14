@@ -112,14 +112,18 @@ export class HNHuntStore extends DurableObject {
 // Fallback in-isolate store if Durable Object binding is absent
 const memStore = { votes: new Map(), comments: new Map() };
 
-const LINK_HEADER = [
-  '</.well-known/api-catalog>; rel="api-catalog"',
-  '</.well-known/agent-skills/index.json>; rel="service-desc"',
-  '</.well-known/mcp/server-card.json>; rel="describedby"',
-  '</.well-known/agent-card.json>; rel="describedby"',
-  '</llms.txt>; rel="describedby"',
-  '</.well-known/ard.json>; rel="ard"',
-].join(", ");
+function linkHeaderFor(prefix = "") {
+  return [
+    `<${prefix}/.well-known/api-catalog>; rel="api-catalog"`,
+    `<${prefix}/.well-known/agent-skills/index.json>; rel="service-desc"`,
+    `<${prefix}/.well-known/mcp/server-card.json>; rel="describedby"`,
+    `<${prefix}/.well-known/agent-card.json>; rel="describedby"`,
+    `<${prefix}/llms.txt>; rel="describedby"`,
+    `<${prefix}/.well-known/ard.json>; rel="ard"`,
+  ].join(", ");
+}
+
+const LINK_HEADER = linkHeaderFor("");
 
 function withAgentHeaders(initHeaders = {}, extra = {}) {
   const h = new Headers(initHeaders);
@@ -355,12 +359,22 @@ ${lines.join("\n")}
 
 export default {
   async fetch(request, env) {
+    const prefix = (request.headers.get("X-Forwarded-Prefix") || "").replace(/\/+$/, "");
+    const res = await handleRequest(request, env, prefix);
+    if (!prefix) return res;
+    const headers = new Headers(res.headers);
+    headers.set("Link", linkHeaderFor(prefix));
+    return new Response(res.body, { status: res.status, statusText: res.statusText, headers });
+  },
+};
+
+async function handleRequest(request, env, prefix = "") {
     if (request.method === "OPTIONS") {
       return new Response(null, { status: 204, headers: withAgentHeaders() });
     }
 
     const url = new URL(request.url);
-    const origin = `${url.protocol}//${url.host}`;
+    const origin = `${url.protocol}//${url.host}${prefix}`;
     const { pathname } = url;
 
     // 1. Standard Crawl + Content Signals
@@ -843,5 +857,4 @@ export default {
       });
     }
     return assetRes;
-  },
-};
+}

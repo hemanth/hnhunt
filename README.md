@@ -2,7 +2,7 @@
 
 Minimal daily product board for Show HN launches from Hacker News, backed by a daily Hugging Face dataset.
 
-Live: [hnhunt.hemanthhm.workers.dev](https://hnhunt.hemanthhm.workers.dev) · Dataset: [gnumanth/hnhunt](https://huggingface.co/datasets/gnumanth/hnhunt)
+Live: [h3manth.com/fun/hnhunt](https://h3manth.com/fun/hnhunt/) · Dataset: [gnumanth/hnhunt](https://huggingface.co/datasets/gnumanth/hnhunt)
 
 ```bash
 uv sync

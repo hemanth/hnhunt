@@ -16,7 +16,7 @@ from huggingface_hub import CommitOperationAdd, HfApi
 ROOT = Path(__file__).resolve().parent.parent
 DATA_DIR = ROOT / "public" / "data"
 REPO_ID = os.environ.get("HF_DATASET_REPO", "gnumanth/hnhunt")
-LIVE_URL = os.environ.get("HNHUNT_PUBLIC_URL", "https://hnhunt.hemanthhm.workers.dev")
+LIVE_URL = os.environ.get("HNHUNT_PUBLIC_URL", "https://h3manth.com/fun/hnhunt")
 
 
 def get_hf_token() -> str | None:
