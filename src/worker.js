@@ -118,7 +118,7 @@ const LINK_HEADER = [
   '</.well-known/mcp/server-card.json>; rel="describedby"',
   '</.well-known/agent-card.json>; rel="describedby"',
   '</llms.txt>; rel="describedby"',
-  '</.well-known/ai-catalog.json>; rel="ai-catalog"',
+  '</.well-known/ard.json>; rel="ard"',
 ].join(", ");
 
 function withAgentHeaders(initHeaders = {}, extra = {}) {
@@ -446,7 +446,52 @@ export default {
       });
     }
 
-    if (pathname === "/.well-known/agent-card.json" || pathname === "/.well-known/ai-catalog.json") {
+    if (pathname === "/.well-known/ard.json" || pathname === "/.well-known/ai-catalog.json") {
+      return new Response(
+        JSON.stringify(
+          {
+            entries: [
+              {
+                identifier: "urn:air:h3manth.com:hnhunt:mcp",
+                displayName: "hnhunt MCP Server",
+                type: "application/mcp-server-card+json",
+                url: `${origin}/.well-known/mcp/server-card.json`,
+                representativeQueries: [
+                  "Find today's top Show HN product launches",
+                  "Search open-source developer tools launched on Show HN",
+                  "Read maker notes and comments for a Show HN project",
+                ],
+              },
+              {
+                identifier: "urn:air:h3manth.com:hnhunt:agent",
+                displayName: "hnhunt A2A Agent",
+                type: "application/agent-card+json",
+                url: `${origin}/.well-known/agent-card.json`,
+                representativeQueries: [
+                  "Discover daily Show HN launches and hidden gems",
+                  "Upvote or comment on a Show HN launch",
+                ],
+              },
+              {
+                identifier: "urn:air:h3manth.com:hnhunt:skills",
+                displayName: "hnhunt Agent Skills",
+                type: "application/agent-skills+json",
+                url: `${origin}/.well-known/agent-skills/index.json`,
+                representativeQueries: [
+                  "Query the daily Hugging Face Show HN dataset",
+                  "Filter Show HN launches by topic or time window",
+                ],
+              },
+            ],
+          },
+          null,
+          2
+        ),
+        { headers: withAgentHeaders({ "Content-Type": "application/ai-catalog+json; charset=utf-8" }) }
+      );
+    }
+
+    if (pathname === "/.well-known/agent-card.json") {
       return jsonResp({
         $schema: "https://a2a-protocol.org/schemas/agent-card/v1.0.0.json",
         schemaVersion: "1.0.0",

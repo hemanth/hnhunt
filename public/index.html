@@ -16,7 +16,7 @@
   <link rel="describedby" href="/.well-known/mcp/server-card.json" type="application/json" />
   <link rel="describedby" href="/.well-known/agent-card.json" type="application/json" />
   <link rel="describedby" href="/llms.txt" type="text/plain" />
-  <link rel="ai-catalog" href="/.well-known/ai-catalog.json" type="application/json" />
+  <link rel="ard" href="/.well-known/ard.json" type="application/ai-catalog+json" />
 
   <!-- Open Graph & Social Card -->
   <meta property="og:type" content="website" />
@@ -203,12 +203,12 @@
 
   <!-- Minimal Slide-Over Product Sheet -->
   <div class="sheet-backdrop" id="sheet-backdrop" hidden></div>
-  <aside
+  <div
     class="product-sheet"
     id="product-sheet"
     role="dialog"
     aria-modal="true"
-    aria-labelledby="sheet-title"
+    aria-label="Show HN launch details"
     hidden
   >
     <div class="sheet-topbar">
@@ -221,7 +221,7 @@
     </div>
 
     <div class="sheet-body" id="sheet-body"></div>
-  </aside>
+  </div>
 
   <script src="app.js" defer></script>
 </body>

@@ -43,6 +43,10 @@ html[data-theme="dark"] {
   padding: 0;
 }
 
+[hidden] {
+  display: none !important;
+}
+
 html {
   background: var(--bg);
   color: var(--ink);
@@ -51,12 +55,14 @@ html {
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
+  overflow-x: clip;
 }
 
 body {
   min-height: 100vh;
   background: var(--bg);
   color: var(--ink);
+  overflow-x: clip;
 }
 
 .sr-only {
@@ -72,11 +78,18 @@ body {
 
 .shell {
   max-width: 880px;
+  width: 100%;
+  min-width: 0;
   margin: 0 auto;
   padding: 0 24px;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+}
+
+#main-content {
+  min-width: 0;
+  width: 100%;
 }
 
 /* Header */
@@ -351,6 +364,8 @@ html[data-theme="dark"] .icon-sun { display: none; }
 /* Feed Sections & Product Rows */
 .feed-container {
   flex: 1;
+  min-height: 76vh;
+  min-width: 0;
 }
 
 .day-section {
@@ -468,6 +483,7 @@ html[data-theme="dark"] .icon-sun { display: none; }
 .meta-domain {
   color: var(--ink-secondary);
   text-decoration: none;
+  overflow-wrap: anywhere;
 }
 .meta-domain:hover {
   text-decoration: underline;
@@ -637,6 +653,11 @@ html[data-theme="dark"] .icon-sun { display: none; }
 .footer-links a:hover {
   color: var(--ink);
   text-decoration: underline;
+}
+.footer-credit a {
+  color: var(--ink);
+  text-decoration: underline;
+  text-underline-offset: 2px;
 }
 
 /* Slide-Over Product Sheet */
