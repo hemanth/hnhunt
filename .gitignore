@@ -6,3 +6,11 @@ node_modules/
 .dev.vars
 .DS_Store
 pipeline/cache/
+renders/
+videos/
+*.mp4
+*.webm
+*.wav
+*.srt
+*.vtt
+*.ass
