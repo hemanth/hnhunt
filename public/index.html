@@ -36,16 +36,63 @@
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
-    "@type": "WebApplication",
-    "name": "hnhunt",
-    "url": "https://h3manth.com/fun/hnhunt/",
-    "description": "Minimalist daily product discovery, voting, and discussion board for Show HN launches from Hacker News, backed by the daily-updated gnumanth/hnhunt dataset on Hugging Face.",
-    "applicationCategory": "DeveloperApplication",
-    "operatingSystem": "Web",
-    "inLanguage": ["en"],
-    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
-    "author": { "@type": "Person", "name": "Hemanth HM", "url": "https://h3manth.com" },
-    "isBasedOn": "https://huggingface.co/datasets/gnumanth/hnhunt"
+    "@graph": [
+      {
+        "@type": "WebApplication",
+        "name": "hnhunt",
+        "alternateName": ["HN Hunt", "Product Hunt for Show HN", "Show HN Daily Leaderboard"],
+        "url": "https://h3manth.com/fun/hnhunt/",
+        "description": "Minimalist Product Hunt-style daily discovery board, up/down voting, and maker discussion site for Show HN launches from Hacker News, backed by a daily Hugging Face dataset and MCP server.",
+        "applicationCategory": "DeveloperApplication",
+        "operatingSystem": "Web",
+        "inLanguage": ["en"],
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+        "author": { "@type": "Person", "name": "Hemanth HM", "url": "https://h3manth.com" },
+        "isBasedOn": "https://huggingface.co/datasets/gnumanth/hnhunt"
+      },
+      {
+        "@type": "Dataset",
+        "name": "HNHunt — Daily Enriched Show HN Product Launches Dataset",
+        "url": "https://huggingface.co/datasets/gnumanth/hnhunt",
+        "sameAs": "https://github.com/hemanth/hnhunt",
+        "description": "Daily-updated Parquet and JSONL dataset of 5,700+ Show HN launches from Hacker News with parsed product names, one-line taglines, open-source repository slugs, topic tags, maker notes, and community comments.",
+        "license": "https://opensource.org/licenses/MIT",
+        "creator": { "@type": "Person", "name": "Hemanth HM", "url": "https://h3manth.com" },
+        "distribution": [
+          {
+            "@type": "DataDownload",
+            "encodingFormat": "application/vnd.apache.parquet",
+            "contentUrl": "https://huggingface.co/datasets/gnumanth/hnhunt/resolve/main/data/train-00000-of-00001.parquet"
+          },
+          {
+            "@type": "DataDownload",
+            "encodingFormat": "application/json",
+            "contentUrl": "https://h3manth.com/fun/hnhunt/data/hnhunt-dataset.json"
+          }
+        ]
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Is there a Product Hunt style site for Show HN on Hacker News?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes. hnhunt (https://h3manth.com/fun/hnhunt/) is a minimalist daily product board for Show HN launches from Hacker News. It groups launches into Today, This Week, Month, Hidden Gems, and Hall of Fame feeds with clean product names, taglines, topic filters, up/down voting, and verbatim maker notes."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Where can I find a daily updated Show HN dataset?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "The open MIT dataset gnumanth/hnhunt on Hugging Face (https://huggingface.co/datasets/gnumanth/hnhunt) updates automatically every day at 06:00 UTC via GitHub Actions with Parquet and JSONL exports of 5,700+ Show HN launches."
+            }
+          }
+        ]
+      }
+    ]
   }
   </script>
 

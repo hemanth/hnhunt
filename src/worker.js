@@ -846,7 +846,44 @@ async function handleRequest(request, env, prefix = "") {
       });
     }
 
-    // 6. Static Assets with Universal Agent Discovery Headers on HTML
+    // 6. Edge-SSR Semantic Feed on `/` and `/index.html` for Non-JS Search & LLM Crawlers (OAI-SearchBot, ClaudeBot, PerplexityBot, Googlebot)
+    if (pathname === "/" || pathname === "/index.html") {
+      const [meta, recent, assetRes] = await Promise.all([
+        loadAssetJson(env, request.url, "/data/meta.json"),
+        loadAssetJson(env, request.url, "/data/recent.json"),
+        env.ASSETS.fetch(new Request(new URL("/index.html", request.url).toString())),
+      ]);
+      let html = await assetRes.text();
+      if (recent && Array.isArray(recent)) {
+        const top = queryFeed(recent, { window: "today", sort: "featured", limit: 20 });
+        const esc = (s) =>
+          String(s || "")
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;");
+        const itemsHtml = top
+          .map(
+            (it) =>
+              `<li><a href="${esc(it.url)}"><strong>${esc(it.product_name)}</strong></a> — ${esc(it.tagline || it.domain)} (<span>${it.points} HN pts, ${it.comments} comments, by ${esc(it.maker)}</span> · <a href="${esc(it.hn_url)}">Show HN thread</a>)</li>`
+          )
+          .join("");
+        const ssrBlock = `<div class="loading-state" id="loading-state">Loading daily Show HN feed…</div><noscript><section aria-label="Featured Show HN Launches"><h2>Featured Show HN Launches (${(meta?.total_launches || recent.length).toLocaleString()} indexed in gnumanth/hnhunt)</h2><ul>${itemsHtml}</ul></section></noscript><div class="sr-only" data-ssr-crawler-index="true"><h2>Today's Top Show HN Product Launches (${esc(meta?.generated_date || "")})</h2><ul>${itemsHtml}</ul></div>`;
+        html = html.replace(
+          '<div class="loading-state" id="loading-state">Loading daily Show HN feed…</div>',
+          ssrBlock
+        );
+      }
+      return new Response(html, {
+        status: 200,
+        headers: withAgentHeaders(assetRes.headers, {
+          "Content-Type": "text/html; charset=utf-8",
+          Vary: "Accept",
+        }),
+      });
+    }
+
+    // 7. Static Assets with Universal Agent Discovery Headers on HTML
     const assetRes = await env.ASSETS.fetch(request);
     const ct = assetRes.headers.get("Content-Type") || "";
     if (ct.includes("text/html")) {
