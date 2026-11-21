@@ -1,55 +1,55 @@
 {
-  "generated_at": "2026-11-20T15:06:24Z",
-  "generated_date": "2026-11-20",
-  "total_launches": 6108,
-  "recent_launches": 1363,
-  "open_source_launches": 2576,
-  "enriched_threads": 3297,
+  "generated_at": "2026-11-21T14:25:55Z",
+  "generated_date": "2026-11-21",
+  "total_launches": 6177,
+  "recent_launches": 1427,
+  "open_source_launches": 2606,
+  "enriched_threads": 3387,
   "hf_dataset": "gnumanth/hnhunt",
   "topics": [
     {
       "id": "web",
-      "count": 2636
+      "count": 2661
     },
     {
       "id": "open-source",
-      "count": 2576
+      "count": 2606
     },
     {
       "id": "ai",
-      "count": 1246
+      "count": 1270
     },
     {
       "id": "design",
-      "count": 553
+      "count": 558
     },
     {
       "id": "devtools",
-      "count": 499
+      "count": 501
     },
     {
       "id": "systems",
-      "count": 446
+      "count": 452
     },
     {
       "id": "games",
-      "count": 435
+      "count": 444
     },
     {
       "id": "data",
-      "count": 340
+      "count": 345
     },
     {
       "id": "cli",
-      "count": 295
+      "count": 297
     },
     {
       "id": "hardware",
-      "count": 156
+      "count": 159
     },
     {
       "id": "security",
-      "count": 143
+      "count": 147
     }
   ]
 }
